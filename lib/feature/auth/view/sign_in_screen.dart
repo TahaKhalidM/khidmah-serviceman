@@ -16,7 +16,7 @@ class SignInScreenState extends State<SignInScreen> {
   final FocusNode _phoneFocus = FocusNode();
   final FocusNode _passwordFocus = FocusNode();
   final TextEditingController _passwordController = TextEditingController();
-  String _countryDialCode='+880';
+  String _countryDialCode='+963'; // Fixed to Syria
   bool _canExit = GetPlatform.isWeb ? true : false;
 
   @override
@@ -28,9 +28,9 @@ class SignInScreenState extends State<SignInScreen> {
       if(Get.find<AuthController>().getUserCountryCode()!=''){
         _countryDialCode = Get.find<AuthController>().getUserCountryCode();
       }else{
-        _countryDialCode = CountryCode.fromCountryCode(Get.find<SplashController>()
-            .configModel?.content?.countryCode ?? "BD").dialCode!;}
+        _countryDialCode = '+963'; // Fixed to Syria
       }
+    }
     _phoneController.text =  Get.find<AuthController>().getUserNumber()
         .replaceFirst( Get.find<AuthController>().getUserCountryCode(), '');
 
@@ -67,39 +67,34 @@ class SignInScreenState extends State<SignInScreen> {
               child: GetBuilder<SplashController>(builder: (splashController) {
                 return GetBuilder<AuthController>(builder: (authController) {
                   return Column(children: [
-                    GetBuilder<ThemeController>(builder: (themeController) {
-                      return Text(
-                        AppConstants.appName,
-                        style: robotoBold.copyWith(
-                          fontSize: 32,
-                          color: themeController.darkTheme ? Colors.white : Theme.of(context).primaryColor,
-                        ),
-                      );
-                    }),
-                    // Image.asset(Images.logo,width: Dimensions.logoWidth,),
+                    // GetBuilder<ThemeController>(builder: (themeController) {
+                    //   return Text(
+                    //         AppConstants.appName,
+                    //         style: robotoBold.copyWith(
+                    //           fontSize: 32,
+                    //           color: themeController.darkTheme ? Colors.white : Theme.of(context).primaryColor,
+                    //         ),
+                    //       );
+                    // }),
+                    Image.asset(Images.logo,width: Dimensions.logoWidth,),
                     const SizedBox(height: Dimensions.paddingSizeExtraLarge),
                     const SizedBox(height: Dimensions.paddingSizeDefault),
                     Directionality(
                       textDirection: TextDirection.ltr,
-                      child: CustomTextField(
-                        hintText: 'phone_hint'.tr,
-                        controller: _phoneController,
-                        focusNode: _phoneFocus,
-                        nextFocus: _passwordFocus,
-                        inputType: TextInputType.phone,
-                        countryDialCode: _countryDialCode,
-                        onCountryChanged: (CountryCode countryCode) => _countryDialCode = countryCode.dialCode!,
-                      ),
+                      child: _buildPhoneInputField(),
                     ),
                     const SizedBox(height: Dimensions.paddingSizeLarge),
-                    CustomTextField(
-                      title: 'password'.tr,
-                      hintText: 'enter_your_password'.tr,
-                      controller: _passwordController,
-                      focusNode: _passwordFocus,
-                      inputType: TextInputType.visiblePassword,
-                      isPassword: true,
-                      inputAction: TextInputAction.done,
+                    Directionality(
+                      textDirection: TextDirection.ltr,
+                      child: CustomTextField(
+                        title: 'password'.tr,
+                        hintText: 'enter_your_password'.tr,
+                        controller: _passwordController,
+                        focusNode: _passwordFocus,
+                        inputType: TextInputType.visiblePassword,
+                        isPassword: true,
+                        inputAction: TextInputAction.done,
+                      ),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
@@ -154,6 +149,115 @@ class SignInScreenState extends State<SignInScreen> {
     );
   }
 
+  Widget _buildPhoneInputField() {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(
+            color: Theme.of(context).primaryColor,
+            width: 1.0,
+          ),
+        ),
+      ),
+      child: Row(
+        children: [
+          // Syria Flag and Country Code
+          Container(
+            width: 120,
+            padding: const EdgeInsets.symmetric(horizontal: 3),
+            child: Row(
+              children: [
+                                 // Syria Flag
+                 Container(
+                   width: 25,
+                   height: 18,
+                   decoration: BoxDecoration(
+                     borderRadius: BorderRadius.circular(2),
+                     border: Border.all(color: Colors.grey.shade300),
+                   ),
+                   child: ClipRRect(
+                     borderRadius: BorderRadius.circular(2),
+                                          child: Image.asset(
+                       'assets/images/Flag_Syria.png',
+                       width: 25,
+                       height: 18,
+                       fit: BoxFit.cover,
+                       errorBuilder: (context, error, stackTrace) {
+                         // Fallback to a colored rectangle if flag image is not available
+                         return Container(
+                           width: 25,
+                           height: 18,
+                           decoration: BoxDecoration(
+                             color: const Color(0xFFCE1126), // Syria red color
+                             borderRadius: BorderRadius.circular(2),
+                           ),
+                           child: const Center(
+                             child: Text(
+                               'SY',
+                               style: TextStyle(
+                                 color: Colors.white,
+                                 fontSize: 8,
+                                 fontWeight: FontWeight.bold,
+                               ),
+                             ),
+                           ),
+                         );
+                       },
+                     ),
+                   ),
+                 ),
+                const SizedBox(width: 8),
+                // Country Code
+                Text(
+                  _countryDialCode,
+                  style: robotoRegular.copyWith(
+                    fontSize: Dimensions.fontSizeLarge,
+                    color: Theme.of(context).textTheme.bodyLarge!.color,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          // Phone Number Input
+          Expanded(
+            child: Directionality(
+              textDirection: TextDirection.ltr,
+              child: TextField(
+                controller: _phoneController,
+                focusNode: _phoneFocus,
+                style: robotoRegular.copyWith(
+                  color: Theme.of(context).textTheme.bodyLarge!.color!.withValues(alpha:0.8),
+                ),
+                textInputAction: TextInputAction.next,
+                keyboardType: TextInputType.phone,
+                cursorColor: Theme.of(context).primaryColor,
+                textCapitalization: TextCapitalization.none,
+                enabled: true,
+                autofocus: false,
+                autofillHints: [AutofillHints.telephoneNumber],
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.allow(RegExp('[0-9+]')),
+                ],
+                decoration: InputDecoration(
+                  isDense: true,
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 5, vertical: 15),
+                  border: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  enabledBorder: InputBorder.none,
+                  hintText: 'phone_hint'.tr,
+                  hintStyle: robotoRegular.copyWith(
+                    color: Theme.of(context).hintColor.withValues(alpha:0.5),
+                    fontSize: Dimensions.fontSizeDefault,
+                  ),
+                ),
+                onSubmitted: (text) => FocusScope.of(context).requestFocus(_passwordFocus),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
   void _login(AuthController authController, String countryDialCode) async {
 

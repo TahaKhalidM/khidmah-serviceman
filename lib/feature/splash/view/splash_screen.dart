@@ -101,16 +101,16 @@ class SplashScreenState extends State<SplashScreen> {
             child: splashController.hasConnection ? Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                GetBuilder<ThemeController>(builder: (themeController) {
-                  return Text(
-                    AppConstants.appName,
-                    style: robotoBold.copyWith(
-                      fontSize: 32,
-                      color: themeController.darkTheme ? Colors.white : Theme.of(context).primaryColor,
-                    ),
-                  );
-                }),
-                // Image.asset(Images.logo,width: Dimensions.logoWidth,),
+                // GetBuilder<ThemeController>(builder: (themeController) {
+                //   return Text(
+                //     AppConstants.appName,
+                //     style: robotoBold.copyWith(
+                //       fontSize: 32,
+                //       color: themeController.darkTheme ? Colors.white : Theme.of(context).primaryColor,
+                //     ),
+                //   );
+                // }),
+                Image.asset(Images.logo,width: Dimensions.logoWidth,),
                 const SizedBox(height: Dimensions.paddingSizeLarge),
                 GetBuilder<ThemeController>(builder: (themeController) {
                   return Text(

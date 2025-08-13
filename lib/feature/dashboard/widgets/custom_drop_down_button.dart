@@ -19,18 +19,42 @@ class _CustomDropDownButtonState extends State<CustomDropDownButton> {
   String dropdownValue = 'Select';
   String selectedMonth = DateFormat('MMMM').format(DateTime.now());
 
+  String _getMonthDisplayText(String monthKey) {
+    // If it's a month dropdown and language is Arabic, show Arabic month names
+    if (widget.type == "Month" && Get.find<LocalizationController>().locale.languageCode == 'ar') {
+      // Map month keys to Arabic month names
+      final monthToArabic = {
+        'january': 'يناير',
+        'february': 'فبراير',
+        'march': 'مارس',
+        'april': 'أبريل',
+        'may': 'مايو',
+        'june': 'يونيو',
+        'july': 'يوليو',
+        'august': 'أغسطس',
+        'september': 'سبتمبر',
+        'october': 'أكتوبر',
+        'november': 'نوفمبر',
+        'december': 'ديسمبر',
+      };
+      return monthToArabic[monthKey] ?? monthKey;
+    }
+    // For other languages or non-month dropdowns, use normal translation
+    return monthKey.tr;
+  }
+
   @override
   Widget build(BuildContext context) {
     return GetBuilder<DashboardController>(builder: (dashboardController){
       return CustomDropDown(
           type: widget.title,
-          hint:  widget.type=="Year" ? dashboardController.selectedYear: selectedMonth.tr,
+          hint:  widget.type=="Year" ? dashboardController.selectedYear: _getMonthDisplayText(selectedMonth),
           errorText: '',
           items: widget.itemList
               .map<DropdownMenuItem<String>>((String value){
             return DropdownMenuItem<String>(
               value: value,
-              child: Text(value.tr),
+              child: Text(_getMonthDisplayText(value)),
             );
           }).toList(),
           onChanged: (String? value) {

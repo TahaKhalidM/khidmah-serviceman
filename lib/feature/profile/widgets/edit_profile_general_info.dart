@@ -42,17 +42,22 @@ class EditProfileGeneralInfo extends StatelessWidget {
                 NonEditableTextField(text: userController.userInfo.firstName??"",text2: userController.userInfo.lastName??""),
 
                 customRichText("email".tr,true,context),
-                CustomTextFormField(
-                  isShowSuffixIcon: true,
-                  controller: userController.emailController,
-                  hintText: "enter_email_address".tr,
-                  isShowBorder: true,
+                Directionality(
+                  textDirection: TextDirection.ltr,
+                  child: CustomTextFormField(
+                    isShowSuffixIcon: true,
+                    controller: userController.emailController,
+                    hintText: "enter_email_address".tr,
+                    isShowBorder: true,
+                  ),
                 ),
                 customRichText("select_identity_type".tr,true,context),
                 NonEditableTextField(text: userController.userInfo.identificationType!=null?userController.userInfo.identificationType.toString().tr:'',),
 
                 customRichText("identity_number".tr,true,context),
-                NonEditableTextField(text: userController.userInfo.identificationNumber??"",),
+                Directionality(
+                    textDirection: TextDirection.ltr,
+                    child: NonEditableTextField(text: userController.userInfo.identificationNumber??"",)),
 
                 const SizedBox(height: Dimensions.paddingSizeLarge),
 

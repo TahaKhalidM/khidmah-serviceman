@@ -22,14 +22,14 @@ class ChooseLanguageScreen extends StatelessWidget {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(
-                              AppConstants.appName,
-                              style: robotoBold.copyWith(
-                                fontSize: 32,
-                                color: Theme.of(context).primaryColor,
-                              ),
-                            ),
-                            // Image.asset(Images.logo,width: Dimensions.logoWidth,),
+                            // Text(
+                            //   AppConstants.appName,
+                            //   style: robotoBold.copyWith(
+                            //     fontSize: 32,
+                            //     color: Theme.of(context).primaryColor,
+                            //   ),
+                            // ),
+                            Image.asset(Images.logo,width: Dimensions.logoWidth,),
                             const SizedBox(height:Dimensions.paddingSizeExtraLarge),
                             const SizedBox(height:Dimensions.paddingSizeExtraLarge),
                             Row(

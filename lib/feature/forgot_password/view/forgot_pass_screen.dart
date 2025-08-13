@@ -66,29 +66,31 @@ class _ForgetPassScreenState extends State<ForgetPassScreen> {
             ),
 
 
-            CustomTextField(
-              onCountryChanged: (countryCode) => countryDialCode = countryCode.dialCode!,
-              countryDialCode: (_forgetPasswordMethod != "email" && _isNumberLogin)  ? countryDialCode : null,
-              title: _forgetPasswordMethod == "email" ? "email".tr : _forgetPasswordMethod == "phone" ? "phone".tr: 'email_or_phone'.tr,
-              hintText: _forgetPasswordMethod == "email" ? "enter_email_address".tr : _forgetPasswordMethod == "phone" ? 'ex : 1234567890'.tr : 'enter_email_address_or_phone_number'.tr,
-              controller: _identityController,
-              focusNode: _identityFocus,
-              inputType: TextInputType.emailAddress,
-              onChanged: (String text){
-                final numberRegExp = RegExp(r'^-?[0-9]+$');
+            Directionality(
+              textDirection: TextDirection.ltr,
+              child: CustomTextField(
+                onCountryChanged: (countryCode) => countryDialCode = countryCode.dialCode!,
+                countryDialCode: (_forgetPasswordMethod != "email" && _isNumberLogin)  ? countryDialCode : null,
+                title: _forgetPasswordMethod == "email" ? "email".tr : _forgetPasswordMethod == "phone" ? "phone".tr: 'email_or_phone'.tr,
+                hintText: _forgetPasswordMethod == "email" ? "enter_email_address".tr : _forgetPasswordMethod == "phone" ? 'ex : 1234567890'.tr : 'enter_email_address_or_phone_number'.tr,
+                controller: _identityController,
+                focusNode: _identityFocus,
+                inputType: TextInputType.emailAddress,
+                onChanged: (String text){
+                  final numberRegExp = RegExp(r'^-?[0-9]+$');
 
-                if(text.isEmpty && _isNumberLogin){
-                  toggleIsNumberLogin();
-                }
-                if(text.startsWith(numberRegExp) && !_isNumberLogin ){
-                  toggleIsNumberLogin();
-                }
-                final emailRegExp = RegExp(r'@');
-                if(text.contains(emailRegExp) && _isNumberLogin){
-                  toggleIsNumberLogin();
-                }
-
-              },
+                  if(text.isEmpty && _isNumberLogin){
+                    toggleIsNumberLogin();
+                  }
+                  if(text.startsWith(numberRegExp) && !_isNumberLogin ){
+                    toggleIsNumberLogin();
+                  }
+                  final emailRegExp = RegExp(r'@');
+                  if(text.contains(emailRegExp) && _isNumberLogin){
+                    toggleIsNumberLogin();
+                  }
+                },
+              ),
             ),
 
             // (identityType=="email")?

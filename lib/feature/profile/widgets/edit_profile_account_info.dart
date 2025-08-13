@@ -23,21 +23,27 @@ class EditProfileAccountInfo extends StatelessWidget {
                       textDirection: TextDirection.ltr,
                       child: NonEditableTextField(text: controller.userInfo.phone??"",)),
                   customRichText("new_password".tr,context),
-                  CustomTextFormField(
-                    isShowSuffixIcon: true,
-                    isPassword: true,
-                    controller: controller.passController,
-                    hintText: "enter_new_password".tr,
-                    isShowBorder: true,
+                  Directionality(
+                    textDirection: TextDirection.ltr,
+                    child: CustomTextFormField(
+                      isShowSuffixIcon: true,
+                      isPassword: true,
+                      controller: controller.passController,
+                      hintText: "enter_new_password".tr,
+                      isShowBorder: true,
+                    ),
                   ),
 
                   customRichText("Confirm_New_Password".tr,context),
-                  CustomTextFormField(
-                    isShowSuffixIcon: true,
-                    isPassword: true,
-                    controller: controller.confirmPassController,
-                    hintText: "enter_confirm_password".tr,
-                    isShowBorder: true,
+                  Directionality(
+                    textDirection: TextDirection.ltr,
+                    child: CustomTextFormField(
+                      isShowSuffixIcon: true,
+                      isPassword: true,
+                      controller: controller.confirmPassController,
+                      hintText: "enter_confirm_password".tr,
+                      isShowBorder: true,
+                    ),
                   ),
                   const SizedBox(height: Dimensions.paddingSizeLarge,),
 

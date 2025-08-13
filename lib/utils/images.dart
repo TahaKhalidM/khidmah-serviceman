@@ -33,6 +33,7 @@ class Images {
   static String get languageIcon => 'language'.png;
   static String get usa => 'english'.png;
   static String get arabic => 'arabic'.png;
+  static String get syria => 'sr'.png;
   static String get bn => 'bangladesh'.png;
   static String get india => 'india'.png;
   static String get money => 'money'.png;
